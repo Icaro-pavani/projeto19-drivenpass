@@ -15,30 +15,30 @@ export default async function validToken(
   res: Response,
   next: NextFunction
 ) {
-  let userInfo: TokenUser;
-  const token = req.headers.authorization.replace("Bearer ", "").trim();
-  if (!token) {
-    throw unprocessableError("Missing token!");
-  }
-
-  const secretKey = process.env.JWT_KEY;
   try {
+    let userInfo: TokenUser;
+    const token = req.headers.authorization.replace("Bearer ", "").trim();
+    if (!token) {
+      return res.status(422).send("Missing token!");
+    }
+
+    const secretKey = process.env.JWT_KEY;
     userInfo = jwt.verify(token, secretKey) as TokenUser;
+
+    if (!userInfo.email) {
+      return res.status(401).send("Invalid Token Information!");
+    }
+
+    const user = await userRepository.findByEmail(userInfo.email);
+
+    if (!user || user.id !== userInfo.id) {
+      return res.status(401).send("Invalid Token Information!");
+    }
+
+    res.locals.user = user;
   } catch (error) {
-    throw unauthorizedError("Invalid Token Information!");
+    return res.status(401).send("Invalid Token Information!");
   }
-
-  if (!userInfo.email) {
-    throw unauthorizedError("Invalid Token Information!");
-  }
-
-  const user = await userRepository.findByEmail(userInfo.email);
-
-  if (!user || user.id !== userInfo.id) {
-    throw unauthorizedError("Invalid Token information!");
-  }
-
-  res.locals.user = user;
 
   next();
 }
