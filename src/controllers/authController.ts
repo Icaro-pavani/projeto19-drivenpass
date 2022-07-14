@@ -9,3 +9,11 @@ export async function registerUser(req: Request, res: Response) {
 
   res.sendStatus(201);
 }
+
+export async function loginUser(req: Request, res: Response) {
+  const userInfo: CreateUserData = res.locals.body;
+
+  const token = await authService.confirmAndLoginUser(userInfo);
+
+  res.status(200).send({ token });
+}
