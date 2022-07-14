@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { CreateUserData } from "../repositories/userRepository.js";
 import * as authService from "../services/authService.js";
 
