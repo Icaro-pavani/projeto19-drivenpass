@@ -1,3 +1,4 @@
+import { Cards } from "@prisma/client";
 import Cryptr from "cryptr";
 
 import { unauthorizedError } from "../middlewares/handleErrorsMiddleware.js";
@@ -21,4 +22,15 @@ export async function addNewCard(
   cardInfo.password = cryptr.encrypt(cardInfo.password);
   const cardData = { ...cardInfo, userId };
   await cardRepository.insert(cardData);
+}
+
+export async function obtainAllUserCards(userId: number) {
+  const cardsResult = await cardRepository.findAllByUserId(userId);
+  const cards = cardsResult.map((card: Cards) => {
+    delete card.userId;
+    card.CVV = cryptr.decrypt(card.CVV);
+    card.password = cryptr.decrypt(card.password);
+    return card;
+  });
+  return cards;
 }
