@@ -1,5 +1,6 @@
 import { Users } from "@prisma/client";
 import { Request, Response } from "express";
+
 import { ValidCreateNoteData } from "../schemas/noteSchema.js";
 import * as noteServices from "../services/noteServices.js";
 
