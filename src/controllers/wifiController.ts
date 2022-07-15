@@ -11,3 +11,10 @@ export async function addWifi(req: Request, res: Response) {
 
   res.sendStatus(201);
 }
+
+export async function getUserWifis(req: Request, res: Response) {
+  const user: Users = res.locals.user;
+  const wifis = await wifiService.obtainAllUserWifis(user.id);
+
+  res.status(200).send(wifis);
+}

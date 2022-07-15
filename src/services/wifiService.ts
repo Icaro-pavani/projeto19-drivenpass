@@ -1,3 +1,4 @@
+import { Wifis } from "@prisma/client";
 import Cryptr from "cryptr";
 import { unauthorizedError } from "../middlewares/handleErrorsMiddleware.js";
 import * as wifiRepository from "../repositories/wifiRepository.js";
@@ -20,4 +21,14 @@ export async function addNewWifi(
 
   const wifiData = { ...wifiInfo, userId };
   await wifiRepository.insert(wifiData);
+}
+
+export async function obtainAllUserWifis(userId: number) {
+  const wifisResult = await wifiRepository.findAllByUserId(userId);
+  const wifis = wifisResult.map((wifi: Wifis) => {
+    delete wifi.userId;
+    wifi.password = cryptr.decrypt(wifi.password);
+    return wifi;
+  });
+  return wifis;
 }
