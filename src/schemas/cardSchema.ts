@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { CreateCardData } from "../repositories/cardRepository";
+import { CreateCardData } from "../repositories/cardRepository.js";
 
 export type ValidCreateCardData = Omit<CreateCardData, "userId">;
 

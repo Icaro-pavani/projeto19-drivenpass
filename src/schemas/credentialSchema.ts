@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { CreateCredentialData } from "../repositories/credentialRepository";
+import { CreateCredentialData } from "../repositories/credentialRepository.js";
 
 export type ValidCreateCredentialData = Omit<CreateCredentialData, "userId">;
 

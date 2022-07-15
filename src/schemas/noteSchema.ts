@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { CreateNoteData } from "../repositories/noteRepository";
+import { CreateNoteData } from "../repositories/noteRepository.js";
 
 export type ValidCreateNoteData = Omit<CreateNoteData, "userId">;
 
