@@ -49,6 +49,16 @@ export async function getWifiById(wifiId: number, userId: number) {
   return wifi;
 }
 
+export async function deleteWifi(wifiId: number, userId: number) {
+  if (!wifiId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
+  await validWifiByUser(wifiId, userId);
+
+  await wifiRepository.deleteById(wifiId);
+}
+
 async function validWifiByUser(cardId: number, userId: number) {
   const wifi = await wifiRepository.findById(cardId);
   if (!wifi) {

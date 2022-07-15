@@ -27,3 +27,12 @@ export async function getWifi(req: Request, res: Response) {
 
   res.status(200).send(wifi);
 }
+
+export async function deleteOneWifi(req: Request, res: Response) {
+  const user: Users = res.locals.user;
+  const wifiId: number = parseInt(req.params.id);
+
+  await wifiService.deleteWifi(wifiId, user.id);
+
+  res.sendStatus(200);
+}
