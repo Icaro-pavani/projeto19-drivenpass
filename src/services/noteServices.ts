@@ -1,5 +1,8 @@
 import { Notes } from "@prisma/client";
-import { unauthorizedError } from "../middlewares/handleErrorsMiddleware.js";
+import {
+  unauthorizedError,
+  unprocessableError,
+} from "../middlewares/handleErrorsMiddleware.js";
 import * as noteRepository from "../repositories/noteRepository.js";
 import { ValidCreateNoteData } from "../schemas/noteSchema.js";
 
@@ -28,4 +31,24 @@ export async function obtainAllUserNotes(userId: number) {
     return note;
   });
   return notes;
+}
+
+export async function getNoteById(noteId: number, userId: number) {
+  const note = await validNoteByUser(noteId, userId);
+
+  delete note.userId;
+  return note;
+}
+
+async function validNoteByUser(noteId: number, userId: number) {
+  const note = await noteRepository.findById(noteId);
+  if (!note) {
+    throw unprocessableError("There is not a note for this id!");
+  }
+
+  if (note.userId !== userId) {
+    throw unauthorizedError("This note belongs to another user!");
+  }
+
+  return note;
 }
