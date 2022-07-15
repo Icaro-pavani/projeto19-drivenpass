@@ -1,7 +1,10 @@
 import { Cards } from "@prisma/client";
 import Cryptr from "cryptr";
 
-import { unauthorizedError } from "../middlewares/handleErrorsMiddleware.js";
+import {
+  unauthorizedError,
+  unprocessableError,
+} from "../middlewares/handleErrorsMiddleware.js";
 import * as cardRepository from "../repositories/cardRepository.js";
 import { ValidCreateCardData } from "../schemas/cardSchema.js";
 
@@ -33,4 +36,27 @@ export async function obtainAllUserCards(userId: number) {
     return card;
   });
   return cards;
+}
+
+export async function getCardById(cardId: number, userId: number) {
+  const card = await validCardByUser(cardId, userId);
+
+  delete card.userId;
+  card.CVV = cryptr.decrypt(card.CVV);
+  card.password = cryptr.decrypt(card.password);
+
+  return card;
+}
+
+async function validCardByUser(cardId: number, userId: number) {
+  const card = await cardRepository.findById(cardId);
+  if (!card) {
+    throw unprocessableError("There is not a card for this id!");
+  }
+
+  if (card.userId !== userId) {
+    throw unauthorizedError("This note belongs to another user!");
+  }
+
+  return card;
 }
