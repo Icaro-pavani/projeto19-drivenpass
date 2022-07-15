@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   addCredential,
+  getCredential,
   getUserCredentials,
 } from "../controllers/credentialController.js";
 import validSchema from "../middlewares/validSchema.js";
@@ -18,5 +19,6 @@ credentialRouter.post(
 );
 
 credentialRouter.get("/credentials", validToken, getUserCredentials);
+credentialRouter.get("/credentials/get/:id", validToken, getCredential);
 
 export default credentialRouter;

@@ -1,7 +1,10 @@
 import { Credentials } from "@prisma/client";
 import Cryptr from "cryptr";
 
-import { unauthorizedError } from "../middlewares/handleErrorsMiddleware.js";
+import {
+  unauthorizedError,
+  unprocessableError,
+} from "../middlewares/handleErrorsMiddleware.js";
 import * as credentialRepository from "../repositories/credentialRepository.js";
 import { ValidCreateCredentialData } from "../schemas/credentialSchema.js";
 
@@ -29,7 +32,23 @@ export async function obtainAllUserCredentials(userId: number) {
   const credentialsResult = await credentialRepository.findAllByUserId(userId);
   const credentials = credentialsResult.map((credential: Credentials) => {
     credential.password = cryptr.decrypt(credential.password);
+    delete credential.userId;
     return credential;
   });
   return credentials;
+}
+
+export async function getCredentialById(id: number, userId: number) {
+  const credential = await credentialRepository.findById(id);
+  if (!credential) {
+    throw unprocessableError("There is not a credential for this id!");
+  }
+
+  if (credential.userId !== userId) {
+    throw unauthorizedError("This credentials belongs to another user!");
+  }
+
+  credential.password = cryptr.decrypt(credential.password);
+  delete credential.userId;
+  return credential;
 }
