@@ -38,8 +38,22 @@ export async function obtainAllUserCredentials(userId: number) {
   return credentials;
 }
 
-export async function getCredentialById(id: number, userId: number) {
-  const credential = await credentialRepository.findById(id);
+export async function getCredentialById(credentialId: number, userId: number) {
+  const credential = await validCredentialByUser(credentialId, userId);
+
+  credential.password = cryptr.decrypt(credential.password);
+  delete credential.userId;
+  return credential;
+}
+
+export async function deleteCredential(credentialId: number, userId: number) {
+  await validCredentialByUser(credentialId, userId);
+
+  await credentialRepository.deleteById(credentialId);
+}
+
+async function validCredentialByUser(credentialId: number, userId: number) {
+  const credential = await credentialRepository.findById(credentialId);
   if (!credential) {
     throw unprocessableError("There is not a credential for this id!");
   }
@@ -48,7 +62,5 @@ export async function getCredentialById(id: number, userId: number) {
     throw unauthorizedError("This credentials belongs to another user!");
   }
 
-  credential.password = cryptr.decrypt(credential.password);
-  delete credential.userId;
   return credential;
 }

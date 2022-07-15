@@ -18,3 +18,7 @@ export async function findById(id: number) {
 export async function findAllByUserId(userId: number) {
   return prisma.credentials.findMany({ where: { userId } });
 }
+
+export async function deleteById(id: number) {
+  return prisma.credentials.delete({ where: { id } });
+}
