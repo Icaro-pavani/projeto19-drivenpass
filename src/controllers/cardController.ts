@@ -27,3 +27,12 @@ export async function getCard(req: Request, res: Response) {
 
   res.status(200).send(card);
 }
+
+export async function deleteOneCard(req: Request, res: Response) {
+  const user: Users = res.locals.user;
+  const cardId: number = parseInt(req.params.id);
+
+  await cardService.deleteCard(cardId, user.id);
+
+  res.sendStatus(200);
+}

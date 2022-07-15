@@ -48,6 +48,12 @@ export async function getCardById(cardId: number, userId: number) {
   return card;
 }
 
+export async function deleteCard(cardId: number, userId: number) {
+  await validCardByUser(cardId, userId);
+
+  await cardRepository.deleteById(cardId);
+}
+
 async function validCardByUser(cardId: number, userId: number) {
   const card = await cardRepository.findById(cardId);
   if (!card) {
