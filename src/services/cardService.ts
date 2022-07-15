@@ -39,6 +39,10 @@ export async function obtainAllUserCards(userId: number) {
 }
 
 export async function getCardById(cardId: number, userId: number) {
+  if (!cardId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
   const card = await validCardByUser(cardId, userId);
 
   delete card.userId;
@@ -49,6 +53,10 @@ export async function getCardById(cardId: number, userId: number) {
 }
 
 export async function deleteCard(cardId: number, userId: number) {
+  if (!cardId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
   await validCardByUser(cardId, userId);
 
   await cardRepository.deleteById(cardId);

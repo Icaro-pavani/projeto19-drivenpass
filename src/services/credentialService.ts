@@ -39,6 +39,10 @@ export async function obtainAllUserCredentials(userId: number) {
 }
 
 export async function getCredentialById(credentialId: number, userId: number) {
+  if (!credentialId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
   const credential = await validCredentialByUser(credentialId, userId);
 
   credential.password = cryptr.decrypt(credential.password);
@@ -47,6 +51,10 @@ export async function getCredentialById(credentialId: number, userId: number) {
 }
 
 export async function deleteCredential(credentialId: number, userId: number) {
+  if (!credentialId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
   await validCredentialByUser(credentialId, userId);
 
   await credentialRepository.deleteById(credentialId);

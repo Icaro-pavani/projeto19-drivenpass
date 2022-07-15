@@ -34,6 +34,10 @@ export async function obtainAllUserNotes(userId: number) {
 }
 
 export async function getNoteById(noteId: number, userId: number) {
+  if (!noteId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
   const note = await validNoteByUser(noteId, userId);
 
   delete note.userId;
@@ -41,6 +45,10 @@ export async function getNoteById(noteId: number, userId: number) {
 }
 
 export async function deleteNote(noteId: number, userId: number) {
+  if (!noteId) {
+    throw unprocessableError("The id must be an integer number!");
+  }
+
   await validNoteByUser(noteId, userId);
 
   await noteRepository.deleteById(noteId);
