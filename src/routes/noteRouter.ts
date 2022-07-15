@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   addNote,
+  deleteOneNote,
   getNote,
   getUserNotes,
 } from "../controllers/noteController.js";
@@ -14,5 +15,6 @@ const noteRouter = Router();
 noteRouter.post("/notes/create", validToken, validSchema(noteSchema), addNote);
 noteRouter.get("/notes", validToken, getUserNotes);
 noteRouter.get("/notes/get/:id", validToken, getNote);
+noteRouter.delete("/notes/delete/:id", validToken, deleteOneNote);
 
 export default noteRouter;

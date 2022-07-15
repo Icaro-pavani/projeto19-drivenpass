@@ -40,6 +40,12 @@ export async function getNoteById(noteId: number, userId: number) {
   return note;
 }
 
+export async function deleteNote(noteId: number, userId: number) {
+  await validNoteByUser(noteId, userId);
+
+  await noteRepository.deleteById(noteId);
+}
+
 async function validNoteByUser(noteId: number, userId: number) {
   const note = await noteRepository.findById(noteId);
   if (!note) {

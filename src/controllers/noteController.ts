@@ -27,3 +27,12 @@ export async function getNote(req: Request, res: Response) {
 
   res.status(200).send(note);
 }
+
+export async function deleteOneNote(req: Request, res: Response) {
+  const user: Users = res.locals.user;
+  const noteId: number = parseInt(req.params.id);
+
+  await noteServices.deleteNote(noteId, user.id);
+
+  res.sendStatus(200);
+}
