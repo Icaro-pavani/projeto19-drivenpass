@@ -17,6 +17,9 @@ model Users {
   crendentials Credentials[]
   Notes        Notes[]
   Wifis        Wifis[]
+  Cards        Cards[]
+
+  @@map("users")
 }
 
 model Credentials {
@@ -28,7 +31,9 @@ model Credentials {
   user     Users  @relation(fields: [userId], references: [id])
   userId   Int
 
+
   @@unique([userId, title], name: "credentialIndentifier")
+  @@map("credentials")
 }
 
 model Notes {
@@ -38,7 +43,9 @@ model Notes {
   user        Users  @relation(fields: [userId], references: [id])
   userId      Int
 
+
   @@unique([userId, title], name: "noteIdentifier")
+  @@map("notes")
 }
 
 model Cards {
@@ -51,6 +58,11 @@ model Cards {
   password       String
   isVirtual      Boolean
   type           Type
+  user           Users   @relation(fields: [userId], references: [id])
+  userId         Int
+
+  @@unique([userId, title], name: "cardIdentifier")
+  @@map("cards")
 }
 
 enum Type {
@@ -68,4 +80,5 @@ model Wifis {
   userId   Int
 
   @@unique([userId, title], name: "wifiIdentifier")
+  @@map("wifis")
 }

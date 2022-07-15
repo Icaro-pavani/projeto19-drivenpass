@@ -3,10 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import * as userRepository from "../repositories/userRepository.js";
-import {
-  unauthorizedError,
-  unprocessableError,
-} from "./handleErrorsMiddleware.js";
 
 type TokenUser = Omit<Users, "password">;
 

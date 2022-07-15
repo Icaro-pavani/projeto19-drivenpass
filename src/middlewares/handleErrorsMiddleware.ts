@@ -24,7 +24,7 @@ export default async function handleErrors(
   res: Response,
   next: NextFunction
 ) {
-  if (error) {
+  if (error.type) {
     return res.status(serviceErrorToStatusCode[error.type]).send(error.message);
   }
 

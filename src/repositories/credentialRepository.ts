@@ -14,3 +14,7 @@ export async function findByUserIdAndTitle(userId: number, title: string) {
 export async function findById(id: number) {
   return prisma.credentials.findFirst({ where: { id } });
 }
+
+export async function findAllByUserId(userId: number) {
+  return prisma.credentials.findMany({ where: { userId } });
+}
