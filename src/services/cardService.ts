@@ -61,7 +61,7 @@ async function validCardByUser(cardId: number, userId: number) {
   }
 
   if (card.userId !== userId) {
-    throw unauthorizedError("This note belongs to another user!");
+    throw unauthorizedError("This card belongs to another user!");
   }
 
   return card;
