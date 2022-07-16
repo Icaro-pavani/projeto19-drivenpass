@@ -18,6 +18,7 @@ model Users {
   Notes        Notes[]
   Wifis        Wifis[]
   Cards        Cards[]
+  Documents    Documents[]
 
   @@map("users")
 }
@@ -81,4 +82,25 @@ model Wifis {
 
   @@unique([userId, title], name: "wifiIdentifier")
   @@map("wifis")
+}
+
+model Documents {
+  id             Int          @id @default(autoincrement())
+  title          String
+  type           DocumentType
+  fullName       String
+  expeditionDate String
+  expirationDate String
+  docNumber      String
+  issuer         String
+  user           Users        @relation(fields: [userId], references: [id])
+  userId         Int
+
+  @@unique([userId, title], name: "documentIdentifier")
+  @@map("documents")
+}
+
+enum DocumentType {
+  RG
+  CNH
 }
