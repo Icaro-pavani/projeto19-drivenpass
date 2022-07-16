@@ -1,7 +1,7 @@
+import { Wifis } from "@prisma/client";
 import Joi from "joi";
-import { CreateWifiData } from "../repositories/wifiRepository.js";
 
-export type ValidCreateWifiData = Omit<CreateWifiData, "userId">;
+export type ValidCreateWifiData = Omit<Wifis, "userId" | "id">;
 
 const wifiSchema = Joi.object<ValidCreateWifiData>({
   title: Joi.string().required(),

@@ -5,10 +5,13 @@ import {
   unauthorizedError,
   unprocessableError,
 } from "../middlewares/handleErrorsMiddleware.js";
-import * as cardRepository from "../repositories/cardRepository.js";
+import repositories from "../repositories/repositories.js";
 import { ValidCreateCardData } from "../schemas/cardSchema.js";
 
 const cryptr = new Cryptr(process.env.CRYPTRKEY);
+
+const repositoryTable = "cards";
+const cardRepository = repositories<Cards>(repositoryTable);
 
 export async function addNewCard(
   cardInfo: ValidCreateCardData,

@@ -1,5 +1,6 @@
 import { Users } from "@prisma/client";
 import { Request, Response } from "express";
+
 import { ValidCreateWifiData } from "../schemas/wifiSchema.js";
 import * as wifiService from "../services/wifiService.js";
 

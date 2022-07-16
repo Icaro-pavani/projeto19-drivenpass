@@ -8,5 +8,5 @@ export async function insert(user: CreateUserData) {
 }
 
 export async function findByEmail(email: string) {
-  return await prisma.users.findFirst({ where: { email } });
+  return prisma.users.findFirst({ where: { email } });
 }

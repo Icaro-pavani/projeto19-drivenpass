@@ -4,10 +4,13 @@ import {
   unauthorizedError,
   unprocessableError,
 } from "../middlewares/handleErrorsMiddleware.js";
-import * as wifiRepository from "../repositories/wifiRepository.js";
+import repositories from "../repositories/repositories.js";
 import { ValidCreateWifiData } from "../schemas/wifiSchema.js";
 
 const cryptr = new Cryptr(process.env.CRYPTRKEY);
+
+const repositoryTable = "wifis";
+const wifiRepository = repositories<Wifis>(repositoryTable);
 
 export async function addNewWifi(
   wifiInfo: ValidCreateWifiData,
@@ -23,6 +26,7 @@ export async function addNewWifi(
   wifiInfo.password = cryptr.encrypt(wifiInfo.password);
 
   const wifiData = { ...wifiInfo, userId };
+
   await wifiRepository.insert(wifiData);
 }
 

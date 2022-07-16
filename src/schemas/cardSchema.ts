@@ -1,7 +1,7 @@
+import { Cards } from "@prisma/client";
 import Joi from "joi";
-import { CreateCardData } from "../repositories/cardRepository.js";
 
-export type ValidCreateCardData = Omit<CreateCardData, "userId">;
+export type ValidCreateCardData = Omit<Cards, "id" | "userId">;
 
 const cardSchema = Joi.object<ValidCreateCardData>({
   title: Joi.string().required(),

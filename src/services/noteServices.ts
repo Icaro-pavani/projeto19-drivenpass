@@ -1,10 +1,14 @@
 import { Notes } from "@prisma/client";
+
 import {
   unauthorizedError,
   unprocessableError,
 } from "../middlewares/handleErrorsMiddleware.js";
-import * as noteRepository from "../repositories/noteRepository.js";
+import repositories from "../repositories/repositories.js";
 import { ValidCreateNoteData } from "../schemas/noteSchema.js";
+
+const repositoryTable = "notes";
+const noteRepository = repositories<Notes>(repositoryTable);
 
 export async function addNewNote(
   noteInfo: ValidCreateNoteData,

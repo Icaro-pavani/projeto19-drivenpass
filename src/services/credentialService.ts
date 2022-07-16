@@ -5,10 +5,13 @@ import {
   unauthorizedError,
   unprocessableError,
 } from "../middlewares/handleErrorsMiddleware.js";
-import * as credentialRepository from "../repositories/credentialRepository.js";
+import repositories from "../repositories/repositories.js";
 import { ValidCreateCredentialData } from "../schemas/credentialSchema.js";
 
 const cryptr = new Cryptr(process.env.CRYPTRKEY);
+
+const repositoryTable = "credentials";
+const credentialRepository = repositories<Credentials>(repositoryTable);
 
 export async function addNewCredential(
   credentialInfo: ValidCreateCredentialData,

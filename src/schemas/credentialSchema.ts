@@ -1,7 +1,7 @@
+import { Credentials } from "@prisma/client";
 import Joi from "joi";
-import { CreateCredentialData } from "../repositories/credentialRepository.js";
 
-export type ValidCreateCredentialData = Omit<CreateCredentialData, "userId">;
+export type ValidCreateCredentialData = Omit<Credentials, "id" | "userId">;
 
 const credentialSchema = Joi.object<ValidCreateCredentialData>({
   title: Joi.string().required(),

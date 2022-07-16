@@ -1,7 +1,7 @@
+import { Notes } from "@prisma/client";
 import Joi from "joi";
-import { CreateNoteData } from "../repositories/noteRepository.js";
 
-export type ValidCreateNoteData = Omit<CreateNoteData, "userId">;
+export type ValidCreateNoteData = Omit<Notes, "id" | "userId">;
 
 const noteSchema = Joi.object<ValidCreateNoteData>({
   title: Joi.string().max(50).required(),
