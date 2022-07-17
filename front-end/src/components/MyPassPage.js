@@ -6,12 +6,13 @@ import {
   IoPencil,
   IoWifi,
   IoDocumentText,
-  IoAddCircle,
 } from "react-icons/io5";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../contexts/UserContext";
+import AddButton from "./AddButton";
 
 export default function MyPassPage() {
   const [passwords, setPasswords] = useState({
@@ -22,6 +23,8 @@ export default function MyPassPage() {
     documents: [],
   });
   const { user } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     function getPasswords(type) {
@@ -52,7 +55,7 @@ export default function MyPassPage() {
       <MyPassPageContainer>
         <h2>Minhas senhas</h2>
         <ul>
-          <li>
+          <li onClick={() => navigate("/credentials")}>
             <Info>
               <IoEnter className="icon" />
               <p>Credenciais</p>
@@ -88,7 +91,7 @@ export default function MyPassPage() {
             <Quantity>{passwords.documents.length}</Quantity>
           </li>
         </ul>
-        <IoAddCircle className="add-button" />
+        <AddButton />
       </MyPassPageContainer>
     </>
   );
@@ -118,14 +121,6 @@ const MyPassPageContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-top: 25px;
-  }
-
-  .add-button {
-    position: fixed;
-    bottom: 18px;
-    right: 11px;
-    font-size: 75px;
-    color: #005985;
   }
 `;
 

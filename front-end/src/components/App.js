@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "../contexts/UserContext";
 
 import GlobalStyle from "../theme/GlobalStyle";
+import CredentialInfoPage from "./CredentialInfoPage";
+import CredentialsPage from "./CredentialsPage";
 import LoginPage from "./LoginPage";
 import MyPassPage from "./MyPassPage";
 import PrivateRoute from "./PrivateRoute";
@@ -21,6 +23,22 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <MyPassPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/credentials"
+              element={
+                <PrivateRoute>
+                  <CredentialsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/credentials/:id"
+              element={
+                <PrivateRoute>
+                  <CredentialInfoPage />
                 </PrivateRoute>
               }
             />
