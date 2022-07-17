@@ -49,7 +49,7 @@ export default function CredentialsPage() {
             );
           })}
         </ul>
-        <AddButton />
+        <AddButton redirectFunction={() => navigate("/credentials/create")} />
       </CredentialsPageContainer>
     </>
   );
