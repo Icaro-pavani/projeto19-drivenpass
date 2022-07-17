@@ -1,10 +1,53 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import Modal from "react-modal";
 
 import { IoLockClosed } from "react-icons/io5";
 import { UserContext } from "../contexts/UserContext";
+
+Modal.setAppElement(document.querySelector(".root"));
+
+const modalStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "10%",
+    bottom: "20%",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    border: "1px solid #DBDBDB",
+    display: "flex",
+    flexDirection: "column",
+    alignItens: "center",
+    justifyContent: "space-between",
+    textAlign: "center",
+    padding: "29px",
+  },
+};
+
+const h2ModalStyle = {
+  fontSize: "18px",
+  fontWeight: "700",
+};
+
+const h3ModalStyle = {
+  fontSize: "18px",
+  padding: "0 30px 0",
+};
+
+const buttonModalStyle = {
+  fontSize: "18px",
+  backgroundColor: "#9bfbb0",
+  width: "250px",
+  height: "40px",
+  border: "3px solid #9BFBB0",
+  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)",
+  borderRadius: "5px",
+  margin: "0 auto",
+  fontFamily: `"Recursive", sans-serif`,
+};
 
 export default function LoginPage() {
   const [loginInfo, setLoginInfo] = useState({
@@ -12,12 +55,18 @@ export default function LoginPage() {
     password: "",
   });
   const [disabled, setDisabled] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const URL = "https://ipt-drivenpass.herokuapp.com/";
+
+  function triggerModal() {
+    setModalIsOpen(!modalIsOpen);
+  }
 
   function updateLoginInfo(event) {
     const { name, value } = event.target;
@@ -34,14 +83,18 @@ export default function LoginPage() {
       navigate("/mylinks");
     });
     promise.catch((error) => {
-      alert(error.response.data);
+      triggerModal();
+      setErrorMessage(error.response.data);
+      //   alert(error.response.data);
       setDisabled(false);
     });
   }
 
-  if (!!user) {
-    navigate("/mypass");
-  }
+  useEffect(() => {
+    if (!!user.token) {
+      navigate("/mypass");
+    }
+  }, [user, navigate]);
 
   return (
     <LoginContainer>
@@ -72,6 +125,18 @@ export default function LoginPage() {
         </button>
       </StyledForm>
       <Link to="/sign-up">Primeiro acesso? Crei sua conta!</Link>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={triggerModal}
+        contentLabel="Error Message"
+        style={modalStyles}
+      >
+        <h2 style={h2ModalStyle}>Login Inválido!</h2>
+        <h3 style={h3ModalStyle}>{errorMessage}</h3>
+        <button style={buttonModalStyle} onClick={triggerModal}>
+          Ok
+        </button>
+      </Modal>
     </LoginContainer>
   );
 }
