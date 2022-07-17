@@ -80,7 +80,6 @@ model Wifis {
   user     Users  @relation(fields: [userId], references: [id])
   userId   Int
 
-  @@unique([userId, title], name: "wifiIdentifier")
   @@map("wifis")
 }
 
