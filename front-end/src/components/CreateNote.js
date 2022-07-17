@@ -54,12 +54,10 @@ const buttonModalStyle = {
   fontFamily: `"Recursive", sans-serif`,
 };
 
-export default function CreateCredential() {
-  const [credentialInfo, setCredentialInfo] = useState({
+export default function CreateNote() {
+  const [noteInfo, setNoteInfo] = useState({
     title: "",
-    url: "",
-    username: "",
-    password: "",
+    description: "",
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -71,9 +69,9 @@ export default function CreateCredential() {
     setModalIsOpen(!modalIsOpen);
   }
 
-  function updateCredentialInfo(event) {
+  function updateNoteInfo(event) {
     const { name, value } = event.target;
-    setCredentialInfo((prevState) => ({ ...prevState, [name]: value }));
+    setNoteInfo((prevState) => ({ ...prevState, [name]: value }));
   }
 
   function createCredential() {
@@ -84,7 +82,7 @@ export default function CreateCredential() {
       },
     };
     axios
-      .post(`${URL}credentials/create`, credentialInfo, config)
+      .post(`${URL}notes/create`, noteInfo, config)
       .then(({ data }) => {
         triggerModal();
       })
@@ -97,8 +95,8 @@ export default function CreateCredential() {
   return (
     <>
       <Header />
-      <CreateCredentialContainer>
-        <h2>Credenciais</h2>
+      <CreateNoteContainer>
+        <h2>Notas Seguras</h2>
         <h3>Cadastro</h3>
         <InputsContainer>
           <label htmlFor="title">Título</label>
@@ -106,33 +104,17 @@ export default function CreateCredential() {
             id="title"
             type="text"
             name="title"
-            onChange={updateCredentialInfo}
-            value={credentialInfo.title}
+            onChange={updateNoteInfo}
+            value={noteInfo.title}
           />
-          <label htmlFor="url">URL</label>
-          <input
-            id="url"
-            type="url"
-            name="url"
-            onChange={updateCredentialInfo}
-            value={credentialInfo.url}
-          />
-          <label htmlFor="username">Usuário</label>
-          <input
-            id="username"
+          <label htmlFor="description">Conteúdo</label>
+          <textarea
+            id="description"
             type="text"
-            name="username"
-            onChange={updateCredentialInfo}
-            value={credentialInfo.username}
-          />
-          <label htmlFor="password">Senha</label>
-          <input
-            id="password"
-            type="text"
-            name="password"
-            onChange={updateCredentialInfo}
-            value={credentialInfo.password}
-          />
+            name="description"
+            onChange={updateNoteInfo}
+            value={noteInfo.description}
+          ></textarea>
         </InputsContainer>
         <BackLink />
         <ConfirmButton sendFunction={createCredential} />
@@ -162,12 +144,12 @@ export default function CreateCredential() {
             </>
           )}
         </Modal>
-      </CreateCredentialContainer>
+      </CreateNoteContainer>
     </>
   );
 }
 
-const CreateCredentialContainer = styled.div`
+const CreateNoteContainer = styled.div`
   margin-top: 87px;
 
   h2 {
@@ -203,7 +185,8 @@ const InputsContainer = styled.div`
     margin-bottom: 10px;
   }
 
-  input {
+  input,
+  textarea {
     width: 100%;
     height: 40px;
     border: 3px solid #005985;
@@ -214,5 +197,9 @@ const InputsContainer = styled.div`
     line-height: 18px;
     padding-left: 22px;
     margin-bottom: 16px;
+  }
+
+  textarea {
+    height: 400px;
   }
 `;

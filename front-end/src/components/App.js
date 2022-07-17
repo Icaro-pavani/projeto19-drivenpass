@@ -3,10 +3,13 @@ import { UserProvider } from "../contexts/UserContext";
 
 import GlobalStyle from "../theme/GlobalStyle";
 import CreateCredential from "./CreateCredential";
+import CreateNote from "./CreateNote";
 import CredentialInfoPage from "./CredentialInfoPage";
 import CredentialsPage from "./CredentialsPage";
 import LoginPage from "./LoginPage";
 import MyPassPage from "./MyPassPage";
+import NoteInfoPage from "./NoteInfoPage";
+import NotesPage from "./NotesPage";
 import PrivateRoute from "./PrivateRoute";
 import SignUpPage from "./SignUpPage";
 
@@ -48,6 +51,30 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CreateCredential />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes"
+              element={
+                <PrivateRoute>
+                  <NotesPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes/:id"
+              element={
+                <PrivateRoute>
+                  <NoteInfoPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes/create"
+              element={
+                <PrivateRoute>
+                  <CreateNote />
                 </PrivateRoute>
               }
             />

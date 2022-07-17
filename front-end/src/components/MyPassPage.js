@@ -62,7 +62,7 @@ export default function MyPassPage() {
             </Info>
             <Quantity>{passwords.credentials.length}</Quantity>
           </li>
-          <li>
+          <li onClick={() => navigate("/notes")}>
             <Info>
               <IoPencil className="icon" />
               <p>Notas seguras</p>
