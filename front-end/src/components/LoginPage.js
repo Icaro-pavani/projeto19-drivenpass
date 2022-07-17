@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import Modal from "react-modal";
-
 import { IoLockClosed } from "react-icons/io5";
+
 import { UserContext } from "../contexts/UserContext";
 
 Modal.setAppElement(document.querySelector(".root"));
@@ -24,6 +24,9 @@ const modalStyles = {
     justifyContent: "space-between",
     textAlign: "center",
     padding: "29px",
+  },
+  overlay: {
+    backgroundColor: "rgba(0.5, 0.5,0.5, 0.6)",
   },
 };
 

@@ -3,6 +3,7 @@ import { UserProvider } from "../contexts/UserContext";
 
 import GlobalStyle from "../theme/GlobalStyle";
 import LoginPage from "./LoginPage";
+import MyPassPage from "./MyPassPage";
 import PrivateRoute from "./PrivateRoute";
 import SignUpPage from "./SignUpPage";
 
@@ -19,7 +20,7 @@ export default function App() {
               path="/mypass"
               element={
                 <PrivateRoute>
-                  <h1>Test</h1>
+                  <MyPassPage />
                 </PrivateRoute>
               }
             />

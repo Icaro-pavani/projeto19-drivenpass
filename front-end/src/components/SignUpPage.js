@@ -24,6 +24,9 @@ const modalStyles = {
     textAlign: "center",
     padding: "29px",
   },
+  overlay: {
+    backgroundColor: "rgba(0.5, 0.5,0.5, 0.6)",
+  },
 };
 
 const h2ModalStyle = {
