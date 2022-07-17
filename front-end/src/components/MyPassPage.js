@@ -70,7 +70,7 @@ export default function MyPassPage() {
             <Quantity>{passwords.notes.length}</Quantity>
           </li>
           <li>
-            <Info>
+            <Info onClick={() => navigate("/cards")}>
               <IoWallet className="icon" />
               <p>Cartões</p>
             </Info>

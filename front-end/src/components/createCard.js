@@ -54,10 +54,16 @@ const buttonModalStyle = {
   fontFamily: `"Recursive", sans-serif`,
 };
 
-export default function CreateNote() {
-  const [noteInfo, setNoteInfo] = useState({
+export default function CreateCard() {
+  const [cardInfo, serCardInfo] = useState({
     title: "",
-    description: "",
+    cardNumber: "",
+    cardholderName: "",
+    CVV: "",
+    expirationDate: "",
+    password: "",
+    isVirtual: false,
+    type: "credit",
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -65,16 +71,38 @@ export default function CreateNote() {
 
   const navigate = useNavigate();
 
+  const cardMask = (value) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{4})(\d)/, "$1 $2")
+      .replace(/(\d{4})(\d)/, "$1 $2")
+      .replace(/(\d{4})(\d)/, "$1 $2")
+      .replace(/(\d{4})\d+?$/, "$1");
+  };
+
+  const expirationDateMask = (value) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)/, "$1/$2")
+      .replace(/(\d{2})\d+?$/, "$1");
+  };
+
   function triggerModal() {
     setModalIsOpen(!modalIsOpen);
   }
 
-  function updateNoteInfo(event) {
-    const { name, value } = event.target;
-    setNoteInfo((prevState) => ({ ...prevState, [name]: value }));
+  function updateCardInfo(event) {
+    let { name, value } = event.target;
+    if (name === "cardNumber") {
+      value = cardMask(value);
+    }
+    if (name === "expirationDate") {
+      value = expirationDateMask(value);
+    }
+    serCardInfo((prevState) => ({ ...prevState, [name]: value }));
   }
 
-  function createCredential() {
+  function createCard() {
     const URL = "https://ipt-drivenpass.herokuapp.com/";
     const config = {
       headers: {
@@ -82,7 +110,7 @@ export default function CreateNote() {
       },
     };
     axios
-      .post(`${URL}notes/create`, noteInfo, config)
+      .post(`${URL}cards/create`, cardInfo, config)
       .then(({ data }) => {
         triggerModal();
       })
@@ -95,8 +123,8 @@ export default function CreateNote() {
   return (
     <>
       <Header />
-      <CreateNoteContainer>
-        <h2>Notas Seguras</h2>
+      <CreateCardContainer>
+        <h2>Cartões</h2>
         <h3>Cadastro</h3>
         <InputsContainer>
           <label htmlFor="title">Título</label>
@@ -104,23 +132,78 @@ export default function CreateNote() {
             id="title"
             type="text"
             name="title"
-            onChange={updateNoteInfo}
-            value={noteInfo.title}
+            onChange={updateCardInfo}
+            value={cardInfo.title}
           />
-          <label htmlFor="description">Conteúdo</label>
-          <textarea
-            id="description"
+          <label htmlFor="cardNumber">Número do cartão</label>
+          <input
+            id="cardNumber"
             type="text"
-            name="description"
-            onChange={updateNoteInfo}
-            value={noteInfo.description}
-          ></textarea>
+            name="cardNumber"
+            onChange={updateCardInfo}
+            value={cardInfo.cardNumber}
+          />
+          <label htmlFor="cardholderName">Nome no cartão</label>
+          <input
+            id="cardholderName"
+            type="text"
+            name="cardholderName"
+            onChange={updateCardInfo}
+            value={cardInfo.cardholderName}
+          />
+          <label htmlFor="CVV">CVV</label>
+          <input
+            id="CVV"
+            type="text"
+            name="CVV"
+            onChange={updateCardInfo}
+            value={cardInfo.CVV}
+          />
+          <label htmlFor="expirationDate">Data de validade</label>
+          <input
+            id="expirationDate"
+            type="text"
+            name="expirationDate"
+            onChange={updateCardInfo}
+            value={cardInfo.expirationDate}
+          />
+          <label htmlFor="password">Senha</label>
+          <input
+            id="password"
+            type="text"
+            name="password"
+            onChange={updateCardInfo}
+            value={cardInfo.password}
+          />
+          <label htmlFor="isVirtual">É um cartão virtual?</label>
+          <select
+            id="isVirtual"
+            type="text"
+            name="isVirtual"
+            onChange={updateCardInfo}
+            value={cardInfo.isVirtual}
+          >
+            <option value={true}>Sim</option>
+            <option value={false}>Não</option>
+          </select>
+          <label htmlFor="type">Tipo do cartão</label>
+          <select
+            id="type"
+            type="text"
+            name="type"
+            onChange={updateCardInfo}
+            value={cardInfo.type}
+          >
+            <option value="credit">Crédito</option>
+            <option value="debit">Débito</option>
+            <option value="both">Crédito e Débito</option>
+          </select>
         </InputsContainer>
         <BackLink />
-        <ConfirmButton sendFunction={createCredential} />
+        <ConfirmButton sendFunction={createCard} />
         <Modal
           isOpen={modalIsOpen}
-          contentLabel="Note Message"
+          contentLabel="Card Message"
           style={modalStyles}
         >
           {errorMessage !== "" ? (
@@ -144,12 +227,12 @@ export default function CreateNote() {
             </>
           )}
         </Modal>
-      </CreateNoteContainer>
+      </CreateCardContainer>
     </>
   );
 }
 
-const CreateNoteContainer = styled.div`
+const CreateCardContainer = styled.div`
   margin-top: 87px;
 
   h2 {
@@ -177,6 +260,7 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 17px 16px 0;
+  margin-bottom: 100px;
 
   label {
     color: #000;
@@ -185,8 +269,7 @@ const InputsContainer = styled.div`
     margin-bottom: 10px;
   }
 
-  input,
-  textarea {
+  input {
     width: 100%;
     height: 40px;
     border: 3px solid #005985;
@@ -199,7 +282,16 @@ const InputsContainer = styled.div`
     margin-bottom: 16px;
   }
 
-  textarea {
-    height: 400px;
+  select {
+    width: 100%;
+    height: 40px;
+    border: 3px solid #005985;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    font-family: "Recursive", sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    padding-left: 22px;
+    margin-bottom: 16px;
   }
 `;

@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "../contexts/UserContext";
 
 import GlobalStyle from "../theme/GlobalStyle";
+import CardInfoPage from "./CardInfoPage";
+import CardsPage from "./CardsPage";
+import CreateCard from "./createCard";
 import CreateCredential from "./CreateCredential";
 import CreateNote from "./CreateNote";
 import CredentialInfoPage from "./CredentialInfoPage";
@@ -75,6 +78,30 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CreateNote />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/cards"
+              element={
+                <PrivateRoute>
+                  <CardsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/cards/:id"
+              element={
+                <PrivateRoute>
+                  <CardInfoPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/cards/create"
+              element={
+                <PrivateRoute>
+                  <CreateCard />
                 </PrivateRoute>
               }
             />

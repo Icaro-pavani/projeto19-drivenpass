@@ -8,12 +8,18 @@ import { UserContext } from "../contexts/UserContext";
 import DeleteButton from "./DeleteButton";
 import BackLink from "./BackLink";
 
-export default function NoteInfoPage() {
-  const [note, setNote] = useState({});
+export default function CardInfoPage() {
+  const [card, setCard] = useState({});
   const { user } = useContext(UserContext);
 
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const types = {
+    credit: "Crédito",
+    debit: "Débito",
+    both: "Crédito e Débito",
+  };
 
   useEffect(() => {
     const URL = "https://ipt-drivenpass.herokuapp.com/";
@@ -24,25 +30,25 @@ export default function NoteInfoPage() {
     };
 
     axios
-      .get(`${URL}notes/get/${id}`, config)
+      .get(`${URL}cards/get/${id}`, config)
       .then(({ data }) => {
-        setNote({ ...data });
+        setCard({ ...data });
       })
       .catch((error) => console.log(error.response.data));
   }, [user, id]);
 
-  function deleteNotes() {
+  function deleteCard() {
     const URL = "https://ipt-drivenpass.herokuapp.com/";
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    if (window.confirm("Você realmente deseja deletar essa nota segura?")) {
+    if (window.confirm("Você realmente deseja deletar esse cartão?")) {
       axios
-        .delete(`${URL}notes/delete/${id}`, config)
+        .delete(`${URL}cards/delete/${id}`, config)
         .then(({ data }) => {
-          navigate("/notes");
+          navigate("/cards");
         })
         .catch((error) => console.log(error.response.data));
     }
@@ -51,19 +57,31 @@ export default function NoteInfoPage() {
   return (
     <>
       <Header />
-      <NoteInfoPageContainer>
-        <h2>Notas Seguras</h2>
-        <h3>{note.title}</h3>
-        <h4>Conteúdo Nota</h4>
-        <p>{note.description}</p>
+      <CardInfoPageContainer>
+        <h2>Cartõos</h2>
+        <h3>{card.title}</h3>
+        <h4>Número do cartão</h4>
+        <p>{card.cardNumber}</p>
+        <h4>Nome no cartão</h4>
+        <p>{card.cardholderName}</p>
+        <h4>CVV</h4>
+        <p>{card.CVV}</p>
+        <h4>Válido até</h4>
+        <p>{card.expirationDate}</p>
+        <h4>Senha</h4>
+        <p>{card.password}</p>
+        <h4>É virtual</h4>
+        <p>{card.isVirtual ? "Sim" : "Não"}</p>
+        <h4>Tipo</h4>
+        <p>{types[card.type]}</p>
         <BackLink />
-        <DeleteButton deleteFunction={deleteNotes} />
-      </NoteInfoPageContainer>
+        <DeleteButton deleteFunction={deleteCard} />
+      </CardInfoPageContainer>
     </>
   );
 }
 
-const NoteInfoPageContainer = styled.div`
+const CardInfoPageContainer = styled.div`
   margin-top: 87px;
 
   h2 {
