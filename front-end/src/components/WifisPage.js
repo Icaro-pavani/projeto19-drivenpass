@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Header from "./Header";
-import { IoWallet } from "react-icons/io5";
+import { IoWifi } from "react-icons/io5";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import AddButton from "./AddButton";
 
-export default function CardsPage() {
-  const [cards, setCards] = useState([]);
+export default function WifisPage() {
+  const [wifis, setWifis] = useState([]);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -22,9 +22,9 @@ export default function CardsPage() {
       },
     };
     axios
-      .get(`${URL}cards`, config)
+      .get(`${URL}wifis`, config)
       .then(({ data }) => {
-        setCards([...data]);
+        setWifis([...data]);
       })
       .catch((error) => console.log(error.response.data));
   }, [user]);
@@ -32,27 +32,27 @@ export default function CardsPage() {
   return (
     <>
       <Header />
-      <CardsPageContainer>
-        <h2>Cartões</h2>
+      <WifisPageContainer>
+        <h2>Senhas de Wi-fi</h2>
         <ul>
-          {cards.map((card, index) => {
+          {wifis.map((wifi, index) => {
             return (
-              <li key={index} onClick={() => navigate(`/cards/${card.id}`)}>
+              <li key={index} onClick={() => navigate(`/wifis/${wifi.id}`)}>
                 <Info>
-                  <IoWallet className="icon" />
-                  <p>{card.title}</p>
+                  <IoWifi className="icon" />
+                  <p>{wifi.title}</p>
                 </Info>
               </li>
             );
           })}
         </ul>
-        <AddButton redirectFunction={() => navigate("/cards/create")} />
-      </CardsPageContainer>
+        <AddButton redirectFunction={() => navigate("/wifis/create")} />
+      </WifisPageContainer>
     </>
   );
 }
 
-const CardsPageContainer = styled.div`
+const WifisPageContainer = styled.div`
   margin-top: 87px;
   h2 {
     width: 100%;

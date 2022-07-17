@@ -77,7 +77,7 @@ export default function MyPassPage() {
             <Quantity>{passwords.cards.length}</Quantity>
           </li>
           <li>
-            <Info>
+            <Info onClick={() => navigate("/wifis")}>
               <IoWifi className="icon" />
               <p>Senhas de Wi-fi</p>
             </Info>

@@ -4,9 +4,10 @@ import { UserProvider } from "../contexts/UserContext";
 import GlobalStyle from "../theme/GlobalStyle";
 import CardInfoPage from "./CardInfoPage";
 import CardsPage from "./CardsPage";
-import CreateCard from "./createCard";
+import CreateCard from "./CreateCard";
 import CreateCredential from "./CreateCredential";
 import CreateNote from "./CreateNote";
+import CreateWifi from "./CreateWifi";
 import CredentialInfoPage from "./CredentialInfoPage";
 import CredentialsPage from "./CredentialsPage";
 import LoginPage from "./LoginPage";
@@ -15,6 +16,8 @@ import NoteInfoPage from "./NoteInfoPage";
 import NotesPage from "./NotesPage";
 import PrivateRoute from "./PrivateRoute";
 import SignUpPage from "./SignUpPage";
+import WifiInfoPage from "./WifiInfoPage";
+import WifisPage from "./WifisPage";
 
 export default function App() {
   return (
@@ -102,6 +105,30 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CreateCard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/wifis"
+              element={
+                <PrivateRoute>
+                  <WifisPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/wifis/:id"
+              element={
+                <PrivateRoute>
+                  <WifiInfoPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/wifis/create"
+              element={
+                <PrivateRoute>
+                  <CreateWifi />
                 </PrivateRoute>
               }
             />
