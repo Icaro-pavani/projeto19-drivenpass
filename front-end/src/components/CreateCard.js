@@ -55,7 +55,7 @@ const buttonModalStyle = {
 };
 
 export default function CreateCard() {
-  const [cardInfo, serCardInfo] = useState({
+  const [cardInfo, setCardInfo] = useState({
     title: "",
     cardNumber: "",
     cardholderName: "",
@@ -99,7 +99,7 @@ export default function CreateCard() {
     if (name === "expirationDate") {
       value = expirationDateMask(value);
     }
-    serCardInfo((prevState) => ({ ...prevState, [name]: value }));
+    setCardInfo((prevState) => ({ ...prevState, [name]: value }));
   }
 
   function createCard() {

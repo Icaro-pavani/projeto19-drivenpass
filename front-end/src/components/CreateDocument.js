@@ -54,11 +54,15 @@ const buttonModalStyle = {
   fontFamily: `"Recursive", sans-serif`,
 };
 
-export default function CreateWifi() {
-  const [wifiInfo, setWifiInfo] = useState({
+export default function CreateDocument() {
+  const [documentInfo, setDocumentInfo] = useState({
     title: "",
-    wifiName: "",
-    password: "",
+    type: "RG",
+    fullName: "",
+    expeditionDate: "",
+    expirationDate: "",
+    docNumber: "",
+    issuer: "",
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -66,16 +70,28 @@ export default function CreateWifi() {
 
   const navigate = useNavigate();
 
+  const dateMask = (value) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)/, "$1/$2")
+      .replace(/(\d{2})(\d)/, "$1/$2")
+      .replace(/(\d{2})\d+?$/, "$1");
+  };
+
   function triggerModal() {
     setModalIsOpen(!modalIsOpen);
   }
 
-  function updateWifiInfo(event) {
-    const { name, value } = event.target;
-    setWifiInfo((prevState) => ({ ...prevState, [name]: value }));
+  function updateDocumentInfo(event) {
+    let { name, value } = event.target;
+    if (name === "expeditionDate" || name === "expirationDate") {
+      value = dateMask(value);
+    }
+
+    setDocumentInfo((prevState) => ({ ...prevState, [name]: value }));
   }
 
-  function createWifi() {
+  function createDocument() {
     const URL = "https://ipt-drivenpass.herokuapp.com/";
     const config = {
       headers: {
@@ -83,7 +99,7 @@ export default function CreateWifi() {
       },
     };
     axios
-      .post(`${URL}wifis/create`, wifiInfo, config)
+      .post(`${URL}documents/create`, documentInfo, config)
       .then(({ data }) => {
         triggerModal();
       })
@@ -96,8 +112,8 @@ export default function CreateWifi() {
   return (
     <>
       <Header />
-      <CreateWifiContainer>
-        <h2>Senhas de Wifi</h2>
+      <CreateDocumentContainer>
+        <h2>Cartões</h2>
         <h3>Cadastro</h3>
         <InputsContainer>
           <label htmlFor="title">Título</label>
@@ -105,31 +121,66 @@ export default function CreateWifi() {
             id="title"
             type="text"
             name="title"
-            onChange={updateWifiInfo}
-            value={wifiInfo.title}
+            onChange={updateDocumentInfo}
+            value={documentInfo.title}
           />
-          <label htmlFor="wifiName">Nome da rede Wi-fi</label>
-          <input
-            id="wifiName"
+          <label htmlFor="type">Tipo do documento</label>
+          <select
+            id="type"
             type="text"
-            name="wifiName"
-            onChange={updateWifiInfo}
-            value={wifiInfo.wifiName}
+            name="type"
+            onChange={updateDocumentInfo}
+            value={documentInfo.type}
+          >
+            <option value="RG">RG</option>
+            <option value="CNH">CNH</option>
+          </select>
+          <label htmlFor="fullName">Nome Completo</label>
+          <input
+            id="fullName"
+            type="text"
+            name="fullName"
+            onChange={updateDocumentInfo}
+            value={documentInfo.fullName}
           />
-          <label htmlFor="password">Senha</label>
+          <label htmlFor="expeditionDate">Data de emissão</label>
           <input
-            id="password"
+            id="expeditionDate"
             type="text"
-            name="password"
-            onChange={updateWifiInfo}
-            value={wifiInfo.password}
+            name="expeditionDate"
+            onChange={updateDocumentInfo}
+            value={documentInfo.expeditionDate}
+          />
+          <label htmlFor="expirationDate">Data de validade</label>
+          <input
+            id="expirationDate"
+            type="text"
+            name="expirationDate"
+            onChange={updateDocumentInfo}
+            value={documentInfo.expirationDate}
+          />
+          <label htmlFor="docNumber">Número do Documento</label>
+          <input
+            id="docNumber"
+            type="text"
+            name="docNumber"
+            onChange={updateDocumentInfo}
+            value={documentInfo.docNumber}
+          />
+          <label htmlFor="issuer">Orgão emissor</label>
+          <input
+            id="issuer"
+            type="text"
+            name="issuer"
+            onChange={updateDocumentInfo}
+            value={documentInfo.issuer}
           />
         </InputsContainer>
         <BackLink />
-        <ConfirmButton sendFunction={createWifi} />
+        <ConfirmButton sendFunction={createDocument} />
         <Modal
           isOpen={modalIsOpen}
-          contentLabel="Wifi Message"
+          contentLabel="Document Message"
           style={modalStyles}
         >
           {errorMessage !== "" ? (
@@ -153,12 +204,12 @@ export default function CreateWifi() {
             </>
           )}
         </Modal>
-      </CreateWifiContainer>
+      </CreateDocumentContainer>
     </>
   );
 }
 
-const CreateWifiContainer = styled.div`
+const CreateDocumentContainer = styled.div`
   margin-top: 87px;
 
   h2 {
@@ -186,6 +237,7 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 17px 16px 0;
+  margin-bottom: 100px;
 
   label {
     color: #000;
@@ -195,6 +247,19 @@ const InputsContainer = styled.div`
   }
 
   input {
+    width: 100%;
+    height: 40px;
+    border: 3px solid #005985;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    font-family: "Recursive", sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    padding-left: 22px;
+    margin-bottom: 16px;
+  }
+
+  select {
     width: 100%;
     height: 40px;
     border: 3px solid #005985;

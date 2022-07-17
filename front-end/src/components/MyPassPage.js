@@ -84,7 +84,7 @@ export default function MyPassPage() {
             <Quantity>{passwords.wifis.length}</Quantity>
           </li>
           <li>
-            <Info>
+            <Info onClick={() => navigate("/documents")}>
               <IoDocumentText className="icon" />
               <p>Documentos</p>
             </Info>

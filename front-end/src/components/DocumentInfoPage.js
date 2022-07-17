@@ -8,18 +8,12 @@ import { UserContext } from "../contexts/UserContext";
 import DeleteButton from "./DeleteButton";
 import BackLink from "./BackLink";
 
-export default function CardInfoPage() {
-  const [card, setCard] = useState({});
+export default function DocumentInfoPage() {
+  const [document, setDocument] = useState({});
   const { user } = useContext(UserContext);
 
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const types = {
-    credit: "Crédito",
-    debit: "Débito",
-    both: "Crédito e Débito",
-  };
 
   useEffect(() => {
     const URL = "https://ipt-drivenpass.herokuapp.com/";
@@ -30,25 +24,25 @@ export default function CardInfoPage() {
     };
 
     axios
-      .get(`${URL}cards/get/${id}`, config)
+      .get(`${URL}documents/get/${id}`, config)
       .then(({ data }) => {
-        setCard({ ...data });
+        setDocument({ ...data });
       })
       .catch((error) => console.log(error.response.data));
   }, [user, id]);
 
-  function deleteCard() {
+  function deleteDocument() {
     const URL = "https://ipt-drivenpass.herokuapp.com/";
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    if (window.confirm("Você realmente deseja deletar esse cartão?")) {
+    if (window.confirm("Você realmente deseja deletar esse documento?")) {
       axios
-        .delete(`${URL}cards/delete/${id}`, config)
+        .delete(`${URL}documents/delete/${id}`, config)
         .then(({ data }) => {
-          navigate("/cards");
+          navigate("/documents");
         })
         .catch((error) => console.log(error.response.data));
     }
@@ -57,31 +51,29 @@ export default function CardInfoPage() {
   return (
     <>
       <Header />
-      <CardInfoPageContainer>
-        <h2>Cartões</h2>
-        <h3>{card.title}</h3>
-        <h4>Número do cartão</h4>
-        <p>{card.cardNumber}</p>
-        <h4>Nome no cartão</h4>
-        <p>{card.cardholderName}</p>
-        <h4>CVV</h4>
-        <p>{card.CVV}</p>
+      <DocumentInfoPageContainer>
+        <h2>Documentos</h2>
+        <h3>{document.title}</h3>
+        <h4>Tipo do documento</h4>
+        <p>{document.type}</p>
+        <h4>Nome completo</h4>
+        <p>{document.fullName}</p>
+        <h4>Data de emissão</h4>
+        <p>{document.expeditionDate}</p>
         <h4>Válido até</h4>
-        <p>{card.expirationDate}</p>
-        <h4>Senha</h4>
-        <p>{card.password}</p>
-        <h4>É virtual</h4>
-        <p>{card.isVirtual ? "Sim" : "Não"}</p>
-        <h4>Tipo</h4>
-        <p>{types[card.type]}</p>
+        <p>{document.expirationDate}</p>
+        <h4>Número do documento</h4>
+        <p>{document.docNumber}</p>
+        <h4>Orgão emissor</h4>
+        <p>{document.issuer}</p>
         <BackLink />
-        <DeleteButton deleteFunction={deleteCard} />
-      </CardInfoPageContainer>
+        <DeleteButton deleteFunction={deleteDocument} />
+      </DocumentInfoPageContainer>
     </>
   );
 }
 
-const CardInfoPageContainer = styled.div`
+const DocumentInfoPageContainer = styled.div`
   margin-top: 87px;
 
   h2 {

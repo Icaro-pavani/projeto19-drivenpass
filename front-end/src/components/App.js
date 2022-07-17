@@ -6,10 +6,13 @@ import CardInfoPage from "./CardInfoPage";
 import CardsPage from "./CardsPage";
 import CreateCard from "./CreateCard";
 import CreateCredential from "./CreateCredential";
+import CreateDocument from "./CreateDocument";
 import CreateNote from "./CreateNote";
 import CreateWifi from "./CreateWifi";
 import CredentialInfoPage from "./CredentialInfoPage";
 import CredentialsPage from "./CredentialsPage";
+import DocumentInfoPage from "./DocumentInfoPage";
+import DocumentsPage from "./DocumentsPage";
 import LoginPage from "./LoginPage";
 import MyPassPage from "./MyPassPage";
 import NoteInfoPage from "./NoteInfoPage";
@@ -129,6 +132,30 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CreateWifi />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/documents"
+              element={
+                <PrivateRoute>
+                  <DocumentsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/documents/:id"
+              element={
+                <PrivateRoute>
+                  <DocumentInfoPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/documents/create"
+              element={
+                <PrivateRoute>
+                  <CreateDocument />
                 </PrivateRoute>
               }
             />
