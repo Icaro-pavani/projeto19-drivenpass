@@ -166,6 +166,7 @@ export default function CreateCard() {
             name="expirationDate"
             onChange={updateCardInfo}
             value={cardInfo.expirationDate}
+            placeholder="MM/YY"
           />
           <label htmlFor="password">Senha</label>
           <input

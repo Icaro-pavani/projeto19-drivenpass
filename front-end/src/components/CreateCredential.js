@@ -116,6 +116,7 @@ export default function CreateCredential() {
             name="url"
             onChange={updateCredentialInfo}
             value={credentialInfo.url}
+            placeholder="Inicie com https:// ou http://"
           />
           <label htmlFor="username">Usuário</label>
           <input

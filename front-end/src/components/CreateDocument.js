@@ -150,6 +150,7 @@ export default function CreateDocument() {
             name="expeditionDate"
             onChange={updateDocumentInfo}
             value={documentInfo.expeditionDate}
+            placeholder="DD/MM/YY"
           />
           <label htmlFor="expirationDate">Data de validade</label>
           <input
@@ -158,6 +159,7 @@ export default function CreateDocument() {
             name="expirationDate"
             onChange={updateDocumentInfo}
             value={documentInfo.expirationDate}
+            placeholder="DD/MM/YY"
           />
           <label htmlFor="docNumber">Número do Documento</label>
           <input

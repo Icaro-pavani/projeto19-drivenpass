@@ -38,6 +38,7 @@ const HeaderContainer = styled.div`
   padding: 0 8px;
   background-color: #fff;
   z-index: 3;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 
   .exit {
     font-size: 54px;

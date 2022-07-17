@@ -19,6 +19,7 @@ import NoteInfoPage from "./NoteInfoPage";
 import NotesPage from "./NotesPage";
 import PrivateRoute from "./PrivateRoute";
 import SignUpPage from "./SignUpPage";
+import TypeCreationPage from "./TypeCreationPage";
 import WifiInfoPage from "./WifiInfoPage";
 import WifisPage from "./WifisPage";
 
@@ -36,6 +37,14 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <MyPassPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/creation"
+              element={
+                <PrivateRoute>
+                  <TypeCreationPage />
                 </PrivateRoute>
               }
             />

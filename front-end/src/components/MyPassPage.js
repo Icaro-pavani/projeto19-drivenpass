@@ -91,7 +91,7 @@ export default function MyPassPage() {
             <Quantity>{passwords.documents.length}</Quantity>
           </li>
         </ul>
-        <AddButton />
+        <AddButton redirectFunction={() => navigate("/creation")} />
       </MyPassPageContainer>
     </>
   );
