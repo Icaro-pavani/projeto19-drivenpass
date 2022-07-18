@@ -83,6 +83,7 @@ export default function CardInfoPage() {
 
 const CardInfoPageContainer = styled.div`
   margin-top: 87px;
+  margin-bottom: 100px;
 
   h2 {
     width: 100%;

@@ -75,6 +75,7 @@ export default function DocumentInfoPage() {
 
 const DocumentInfoPageContainer = styled.div`
   margin-top: 87px;
+  margin-bottom: 100px;
 
   h2 {
     width: 100%;
