@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../contexts/UserContext";
 import AddButton from "./AddButton";
+import BackLink from "./BackLink";
 
 export default function NotesPage() {
   const [notes, setNotes] = useState([]);
@@ -47,6 +48,7 @@ export default function NotesPage() {
           })}
         </ul>
         <AddButton redirectFunction={() => navigate("/notes/create")} />
+        <BackLink />
       </NotesPageContainer>
     </>
   );

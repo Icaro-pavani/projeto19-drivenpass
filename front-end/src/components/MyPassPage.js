@@ -47,6 +47,8 @@ export default function MyPassPage() {
     getPasswords("cards");
     getPasswords("wifis");
     getPasswords("documents");
+
+    return () => setPasswords({});
   }, [user]);
 
   return (

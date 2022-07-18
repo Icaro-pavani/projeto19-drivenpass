@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../contexts/UserContext";
 import AddButton from "./AddButton";
+import BackLink from "./BackLink";
 
 export default function CredentialsPage() {
   const [credentials, setCredentials] = useState([]);
@@ -50,6 +51,7 @@ export default function CredentialsPage() {
           })}
         </ul>
         <AddButton redirectFunction={() => navigate("/credentials/create")} />
+        <BackLink />
       </CredentialsPageContainer>
     </>
   );

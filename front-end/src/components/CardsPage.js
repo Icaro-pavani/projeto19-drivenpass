@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../contexts/UserContext";
 import AddButton from "./AddButton";
+import BackLink from "./BackLink";
 
 export default function CardsPage() {
   const [cards, setCards] = useState([]);
@@ -47,6 +48,7 @@ export default function CardsPage() {
           })}
         </ul>
         <AddButton redirectFunction={() => navigate("/cards/create")} />
+        <BackLink />
       </CardsPageContainer>
     </>
   );

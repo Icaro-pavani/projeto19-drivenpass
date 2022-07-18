@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../contexts/UserContext";
 import AddButton from "./AddButton";
+import BackLink from "./BackLink";
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState([]);
@@ -50,6 +51,7 @@ export default function DocumentsPage() {
           })}
         </ul>
         <AddButton redirectFunction={() => navigate("/documents/create")} />
+        <BackLink />
       </DocumentsPageContainer>
     </>
   );

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../contexts/UserContext";
 import AddButton from "./AddButton";
+import BackLink from "./BackLink";
 
 export default function WifisPage() {
   const [wifis, setWifis] = useState([]);
@@ -47,6 +48,7 @@ export default function WifisPage() {
           })}
         </ul>
         <AddButton redirectFunction={() => navigate("/wifis/create")} />
+        <BackLink />
       </WifisPageContainer>
     </>
   );

@@ -127,7 +127,7 @@ export default function LoginPage() {
           Acessar
         </button>
       </StyledForm>
-      <Link to="/sign-up">Primeiro acesso? Crei sua conta!</Link>
+      <StyledLink to="/sign-up">Primeiro acesso? Crie sua conta!</StyledLink>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={triggerModal}
@@ -213,4 +213,8 @@ const StyledForm = styled.form`
       opacity: 0.5;
     }
   }
+`;
+
+const StyledLink = styled(Link)`
+  color: #000;
 `;
